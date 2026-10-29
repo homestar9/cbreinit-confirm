@@ -1,0 +1,55 @@
+{
+    "name":"cbreinit-confirm",
+    "version":"0.1.0",
+    "location":"forgeboxStorage",
+    "author":"Angry Sam Productions, Inc.",
+    "homepage":"https://github.com/homestar9/cbreinit-confirm",
+    "documentation":"https://github.com/homestar9/cbreinit-confirm",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/homestar9/cbreinit-confirm"
+    },
+    "bugs":"https://github.com/homestar9/cbreinit-confirm/issues",
+    "shortDescription":"Sends a response header from the request that reinitialised a ColdBox app, so a deploy tool can confirm fwreinit really reloaded it.",
+    "slug":"cbreinit-confirm",
+    "packageDirectory":"cbreinit-confirm",
+    "type":"modules",
+    "keywords":"coldbox,fwreinit,reinit,deploy,interceptor",
+    "license":[
+        {
+            "type":"Apache2",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ],
+    "contributors":[],
+    "dependencies":{},
+    "devDependencies":{
+        "commandbox-cfformat":"*"
+    },
+    "ignore":[
+        "**/.*",
+        "/test-harness/",
+        "/server*.json",
+        "/release.json",
+        "/plans/",
+        "/AGENTS.md",
+        "/CLAUDE.md"
+    ],
+    "scripts":{
+        "install:dependencies":"install && cd test-harness && install",
+        "format":"cfformat run interceptors,test-harness/tests/,ModuleConfig.cfc --overwrite",
+        "format:check":"cfformat check interceptors,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
+        "start:2023":"server start serverConfigFile=server-adobe@2023.json",
+        "stop:2023":"server stop serverConfigFile=server-adobe@2023.json",
+        "start:2025":"server start serverConfigFile=server-adobe@2025.json",
+        "stop:2025":"server stop serverConfigFile=server-adobe@2025.json",
+        "start:lucee6":"server start serverConfigFile=server-lucee@6.json",
+        "stop:lucee6":"server stop serverConfigFile=server-lucee@6.json",
+        "start:boxlang":"server start serverConfigFile=server-boxlang-cfml@1.json",
+        "stop:boxlang":"server stop serverConfigFile=server-boxlang-cfml@1.json",
+        "test":"testbox run runner=http://localhost:60301/tests/runner.cfm"
+    },
+    "testbox":{
+        "runner":"http://localhost:60301/tests/runner.cfm"
+    }
+}

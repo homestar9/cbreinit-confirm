@@ -1,0 +1,66 @@
+##
+## Runs the specs on every supported engine, on every push and pull request.
+##
+## The specs call the harness over HTTP, because the header only exists in a real response. Each
+## engine gets its own server, on the same port, one per matrix cell.
+##
+
+name: Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  specs:
+    name: Specs on ${{ matrix.engine.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Every engine gets its turn even when an earlier one fails. A run that stops at the first
+      # failure hides how many engines are actually broken.
+      fail-fast: false
+      matrix:
+        engine:
+          - { name: "Adobe 2023", config: "server-adobe@2023.json" }
+          - { name: "Adobe 2025", config: "server-adobe@2025.json" }
+          - { name: "Lucee 6",    config: "server-lucee@6.json" }
+          - { name: "BoxLang 1",  config: "server-boxlang-cfml@1.json" }
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install CommandBox
+        uses: Ortus-Solutions/setup-commandbox@v2.0.1
+
+      - name: Install dependencies
+        run: |
+          box install
+          cd test-harness && box install
+
+      - name: Start the server
+        run: |
+          box server start serverConfigFile=${{ matrix.engine.config }} --!console
+          # Poll until it answers. A fixed sleep either wastes time or fails at random.
+          for i in $(seq 1 60); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:60301/ || true)
+            if [ "$code" -ge 200 ] && [ "$code" -lt 400 ]; then echo "server is up"; break; fi
+            sleep 5
+          done
+
+      - name: Run the specs
+        run: box testbox run runner=http://127.0.0.1:60301/tests/runner.cfm
+
+      - name: Show the server log if something failed
+        if: failure()
+        run: box server log serverConfigFile=${{ matrix.engine.config }}

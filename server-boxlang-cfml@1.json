@@ -1,0 +1,30 @@
+{
+    "name":"cbreinit-confirm-boxlang@1",
+    "app":{
+        "serverHomeDirectory":".engine/boxlang-cfml",
+        "cfengine":"boxlang@1"
+    },
+    "fusionreactor":{
+        "enable":false
+    },
+    "web":{
+        "http":{
+            "port":"60301"
+        },
+        "rewrites":{
+            "enable":"true"
+        },
+        "webroot":"test-harness",
+        "aliases":{
+            "/moduleroot/cbreinit-confirm":"../"
+        }
+    },
+    "jvm":{
+        "heapSize":"768",
+        "javaVersion":"openjdk21_jre"
+    },
+    "openBrowser":"false",
+    "scripts":{
+        "onServerInitialInstall":"install bx-compat-cfml --noSave"
+    }
+}

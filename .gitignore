@@ -1,0 +1,14 @@
+# Engine, artifacts, temp folders
+.engine/**
+.artifacts/**
+.tmp/**
+.env
+.DS_Store
+
+# Dependencies
+test-harness/coldbox/**
+test-harness/testbox/**
+test-harness/modules/**
+test-harness/logs/**
+test-harness/tests/results/**
+modules/**

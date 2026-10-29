@@ -1,0 +1,30 @@
+{
+    "name":"cbreinit-confirm-adobe@2023",
+    "app":{
+        "serverHomeDirectory":".engine/adobe2023",
+        "cfengine":"adobe@2023"
+    },
+    "web":{
+        "http":{
+            "port":"60301"
+        },
+        "rewrites":{
+            "enable":"true"
+        },
+        "webroot":"test-harness",
+        "aliases":{
+            "/moduleroot/cbreinit-confirm":"../"
+        }
+    },
+    "jvm":{
+        "heapSize":"768",
+        "javaVersion":"openjdk17_jre"
+    },
+    "openBrowser":"false",
+    "cfconfig":{
+        "file":".cfconfig.json"
+    },
+    "scripts":{
+        "onServerInstall":"cfpm install zip"
+    }
+}
