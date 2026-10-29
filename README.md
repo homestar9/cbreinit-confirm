@@ -1,8 +1,8 @@
 # cbreinit-confirm
 
-ColdBox answers `?fwreinit=<password>` with `200 OK` whether or not the password was right. A deploy tool that reloads an app after a release can't tell from the answer whether the new code is loaded.
+ColdBox answers `?fwreinit=<password>` with `200 OK` whether or not the password was right. Was the reinit successful? Who knows?
 
-This module adds a response header, by default `X-Fwreinit: true`, to the request that reinitialised the app. Other requests never get it, and neither does a reinit with a wrong password.
+This module solves that by problem by adding special a response header to the request that reinitialised the app. It defaults to `X-Fwreinit: true`. All other requests, including those that provided the wront password, get no header.
 
 ```text
 GET /?fwreinit=right-password   200 OK   X-Fwreinit: true
@@ -14,7 +14,9 @@ GET /                           200 OK   (no header)
 
 ColdBox reloads inside the request that sent `fwreinit`, holding the application lock, before it handles that request. The module's `onLoad()` runs during that load and leaves a flag in the request scope, which belongs to that one request. On `preProcess`, which runs only after the load has succeeded (including the `applicationStartHandler`), an interceptor sends the header and clears the flag. Requests arriving during the reload wait on the lock, or get ColdBox's fail-fast 503. They never see the flag.
 
-The app's first request after the server or application starts also loads ColdBox, so it gets the header too. That load is a real one.
+## What about server restarts?
+
+The app's first request after the server or application starts also loads ColdBox, so it gets the header too, even without the `fwreinit` query string. 
 
 ## Requirements
 
@@ -44,12 +46,6 @@ moduleSettings = {
 };
 ```
 
-The header says nothing a caller doesn't already know: getting it requires the right reinit password. You can still set a value of your own so the confirmation can't be confused with another app's.
-
-## DeployBot
-
-On the site's edit page in DeployBot, under **Reinit and health**, set **Reload confirmation header** to the module's `headerName` and **Reload confirmation value** to its `headerValue` (`reinit.confirmHeader` / `reinit.confirmValue` in `config.json`). A reinit that answers 200 without the header then fails the deploy, which catches a wrong reload password.
-
 ## Develop
 
 ```bash
@@ -64,4 +60,4 @@ The specs call the harness app over HTTP (`test-harness/tests/specs/ReloadHeader
 
 ## License
 
-Apache 2.0
+[Apache License 2.0](LICENSE). Copyright 2026 David Levin, Angry Sam Productions, Inc.
