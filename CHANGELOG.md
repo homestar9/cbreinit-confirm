@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-29
+
 ### Added
 
 - The request that reinitialises the app gets a response header, `X-Fwreinit: true` by default; `headerName` and `headerValue` in `moduleSettings` change it. Ordinary requests, a reinit with a wrong password, and responses served from ColdBox's event cache get none.
