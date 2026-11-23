@@ -44,7 +44,7 @@ In `config/ColdBox.cfc`:
 ```js
 moduleSettings = {
 	"cbreinit-confirm" : {
-		// letters, digits and "-"; any other name sends nothing
+		// letters, digits and "-"; any other name sends no header at all
 		headerName    : "X-Fwreinit",
 		// control characters are removed
 		headerValue   : "true",

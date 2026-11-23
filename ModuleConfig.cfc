@@ -32,7 +32,7 @@ component {
 	function configure(){
 		variables.settings = {
 			// The response header sent by the request that reloaded the app. Letters, digits and
-			// "-"; any other name sends nothing.
+			// "-"; any other name sends no header at all.
 			headerName    : "X-Fwreinit",
 			// Its value. Control characters are removed.
 			headerValue   : "true",
