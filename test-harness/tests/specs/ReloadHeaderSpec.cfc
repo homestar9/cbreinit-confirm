@@ -21,7 +21,7 @@ component extends="testbox.system.BaseSpec" {
 
 	function run(){
 		describe( "cbreinit-confirm", function(){
-			it( "sends nothing on an ordinary request", function(){
+			it( "sends no header at all on an ordinary request", function(){
 				var r = send( base );
 				expect( r.status ).toBe( 200 );
 				expect( r.headers ).notToHaveKey( HEADER );
