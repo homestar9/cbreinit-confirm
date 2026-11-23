@@ -5,8 +5,8 @@
  * ColdBox reloads inside the request that sent `fwreinit`, before it handles that request, and
  * this module's onLoad() runs during that load. onLoad() leaves a flag in the request scope; the
  * ReloadConfirmation interceptor sends the header on `preProcess`, which runs only once the load
- * has succeeded. Other requests, and a request with a wrong reinit password (which reloads
- * nothing), never get the header.
+ * has succeeded. Other requests never get the header. A request with a wrong reinit password
+ * (which reloads nothing) gets it only when `rejectedValue` is set, with that value.
  */
 component {
 
@@ -32,10 +32,13 @@ component {
 	function configure(){
 		variables.settings = {
 			// The response header sent by the request that reloaded the app. Letters, digits and
-			// "-"; any other name sends nothing.
-			headerName  : "X-Fwreinit",
+			// "-"; any other name sends no header at all.
+			headerName    : "X-Fwreinit",
 			// Its value. Control characters are removed.
-			headerValue : "true"
+			headerValue   : "true",
+			// Its value on a request that sent the reinit key with a wrong password, so nothing
+			// reloaded. "" (the default) sends no header.
+			rejectedValue : ""
 		};
 
 		// ColdBox adds "@cbreinit-confirm" to each registered name.

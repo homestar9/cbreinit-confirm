@@ -8,10 +8,10 @@ component{
 	}
 
 	/**
-	 * Cached, with fwreinit left out of the cache key: a reinit and a plain request share one
-	 * cache entry, the worst case for a header leaking from one to the other.
+	 * Cached, with the harness's reinit key left out of the cache key: a reinit and a plain
+	 * request share one cache entry, the worst case for a header leaking from one to the other.
 	 */
-	any function cached( event, rc, prc ) cache="true" cacheTimeout="5" cacheExclude="fwreinit"{
+	any function cached( event, rc, prc ) cache="true" cacheTimeout="5" cacheExclude="harness-reinit"{
 		return "cached";
 	}
 

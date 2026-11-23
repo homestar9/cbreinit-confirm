@@ -53,13 +53,13 @@ jobs:
           box server start serverConfigFile=${{ matrix.engine.config }} --!console
           # Poll until it answers. A fixed sleep either wastes time or fails at random.
           for i in $(seq 1 60); do
-            code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:60301/ || true)
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:60302/ || true)
             if [ "$code" -ge 200 ] && [ "$code" -lt 400 ]; then echo "server is up"; break; fi
             sleep 5
           done
 
       - name: Run the specs
-        run: box testbox run runner=http://127.0.0.1:60301/tests/runner.cfm
+        run: box testbox run runner=http://127.0.0.1:60302/tests/runner.cfm
 
       - name: Show the server log if something failed
         if: failure()

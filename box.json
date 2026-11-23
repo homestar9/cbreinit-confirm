@@ -1,6 +1,6 @@
 {
     "name":"cbreinit-confirm",
-    "version":"1.0.0",
+    "version":"1.1.0",
     "location":"forgeboxStorage",
     "author":"Angry Sam Productions, Inc.",
     "homepage":"https://github.com/homestar9/cbreinit-confirm",
@@ -47,9 +47,9 @@
         "stop:lucee6":"server stop serverConfigFile=server-lucee@6.json",
         "start:boxlang":"server start serverConfigFile=server-boxlang-cfml@1.json",
         "stop:boxlang":"server stop serverConfigFile=server-boxlang-cfml@1.json",
-        "test":"testbox run runner=http://localhost:60301/tests/runner.cfm"
+        "test":"testbox run runner=http://localhost:60302/tests/runner.cfm"
     },
     "testbox":{
-        "runner":"http://localhost:60301/tests/runner.cfm"
+        "runner":"http://localhost:60302/tests/runner.cfm"
     }
 }

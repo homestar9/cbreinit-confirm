@@ -11,6 +11,8 @@
 			// Development
 			// A password, so the specs can show a wrong one reloads nothing and sends no header
 			reinitPassword			= "harness-pw",
+			// Not the default "fwreinit", so the specs show the module reads this setting
+			reinitKey				= "harness-reinit",
 			handlersIndexAutoReload = true,
 			modulesExternalLocation = [],
 
@@ -51,10 +53,12 @@
 		// Module settings
 		moduleSettings = {
 			// The specs read the header the harness sends from here. The value has letters
-			// ("r", "l") that a misread control-character pattern could strip.
+			// ("r", "l") that a misread control-character pattern could strip. rejectedValue is on,
+			// so the specs can tell a wrong password from a reload.
 			"cbreinit-confirm" : {
-				headerName  : "X-Harness-Reloaded",
-				headerValue : "reloaded"
+				headerName    : "X-Harness-Reloaded",
+				headerValue   : "reloaded",
+				rejectedValue : "refused"
 			}
 		};
 
