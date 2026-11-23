@@ -22,7 +22,7 @@ ColdBox reloads inside the request that sent `fwreinit`, holding the application
 
 ## What about server restarts?
 
-The app's first request after the server or application starts also loads ColdBox, so it gets the header too, even without the `fwreinit` query string. 
+The app's first request after the server or application starts also loads ColdBox, so it gets the header too, even without the `fwreinit` query string.
 
 ## Requirements
 
@@ -48,7 +48,7 @@ moduleSettings = {
 		headerName    : "X-Fwreinit",
 		// control characters are removed
 		headerValue   : "true",
-		// sent when the reinit key arrives with a wrong password; "" (the default) sends nothing
+		// sent when the reinit key arrives with a wrong password; "" (the default) sends no header at all
 		rejectedValue : ""
 	}
 };
