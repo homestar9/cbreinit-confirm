@@ -66,7 +66,7 @@ box run-script test
 
 Each engine has its own start and stop scripts: `2023`, `2025`, `lucee6` and `boxlang`. They all use port 60302, so run one at a time.
 
-The specs call the harness app over HTTP (`test-harness/tests/specs/ReloadHeaderSpec.cfc`). The harness sets `reinitPassword = "harness-pw"`, sends `X-Harness-Reloaded: reloaded` (or `refused` for a wrong password), and turns on event caching so a spec can show a cached response never carries the header.
+The specs call the harness app over HTTP (`test-harness/tests/specs/ReloadHeaderSpec.cfc`). The harness sets `reinitPassword = "harness-pw"` and renames the reinit key to `harness-reinit` (so a hard-coded `fwreinit` would fail), sends `X-Harness-Reloaded: reloaded` (or `refused` for a wrong password), and turns on event caching so a spec can show a cached response never carries the header.
 
 ## License
 

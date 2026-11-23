@@ -11,6 +11,8 @@
 			// Development
 			// A password, so the specs can show a wrong one reloads nothing and sends no header
 			reinitPassword			= "harness-pw",
+			// Not the default "fwreinit", so the specs show the module reads this setting
+			reinitKey				= "harness-reinit",
 			handlersIndexAutoReload = true,
 			modulesExternalLocation = [],
 
