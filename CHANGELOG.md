@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- `rejectedValue` setting: a request that sends the reinit key with a wrong password gets the header with this value, so a deploy tool can tell "password refused" from "no answer". Off by default (`""`), which keeps 1.0.0's behaviour. Honours a renamed `reinitKey`.
+
 ## [1.0.0] - 2026-10-29
 
 ### Added

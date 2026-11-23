@@ -51,10 +51,12 @@
 		// Module settings
 		moduleSettings = {
 			// The specs read the header the harness sends from here. The value has letters
-			// ("r", "l") that a misread control-character pattern could strip.
+			// ("r", "l") that a misread control-character pattern could strip. rejectedValue is on,
+			// so the specs can tell a wrong password from a reload.
 			"cbreinit-confirm" : {
-				headerName  : "X-Harness-Reloaded",
-				headerValue : "reloaded"
+				headerName    : "X-Harness-Reloaded",
+				headerValue   : "reloaded",
+				rejectedValue : "refused"
 			}
 		};
 

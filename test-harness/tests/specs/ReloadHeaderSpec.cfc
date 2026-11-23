@@ -1,13 +1,15 @@
 /**
  * The harness app over HTTP (the header is only visible in a real response): the request that
- * reinitialises it gets the header the harness configures (X-Harness-Reloaded: reloaded), other
- * requests, a request with a wrong password and a response replayed from the event cache do not.
+ * reinitialises it gets the header the harness configures (X-Harness-Reloaded: reloaded), a
+ * request with a wrong password gets the harness's rejectedValue (refused), and other requests
+ * and a response replayed from the event cache get nothing.
  */
 component extends="testbox.system.BaseSpec" {
 
 	variables.HEADER   = "X-Harness-Reloaded";
 	variables.PASSWORD = "harness-pw";
 	variables.VALUE    = "reloaded";
+	variables.REJECTED = "refused";
 
 	function beforeAll(){
 		variables.base = "http://" & cgi.server_name & ":" & cgi.server_port & "/index.cfm";
@@ -50,10 +52,33 @@ component extends="testbox.system.BaseSpec" {
 				expect( r.headers ).notToHaveKey( HEADER );
 			} );
 
-			it( "sends nothing when the password is wrong: ColdBox answers 200 but reloads nothing", function(){
+			it( "sends the rejected value when the password is wrong: ColdBox answers 200 but reloads nothing", function(){
 				var r = send( base & "?fwreinit=wrong" );
 				expect( r.status ).toBe( 200 );
-				expect( r.headers ).notToHaveKey( HEADER );
+				expect( r.headers[ HEADER ] ?: "" ).toBe( REJECTED );
+				expect( send( base ).headers ).notToHaveKey( HEADER, "the next request sent no reinit key" );
+			} );
+
+			it( "sends the rejected value for a wrong password posted as a form field", function(){
+				var r = send( base, { "fwreinit" : "wrong" } );
+				expect( r.status ).toBe( 200 );
+				expect( r.headers[ HEADER ] ?: "" ).toBe( REJECTED );
+			} );
+
+			it( "sends the reload value, not the rejected one, for a form reinit (form keeps the key)", function(){
+				var r = send( base, { "fwreinit" : PASSWORD } );
+				expect( r.headers[ HEADER ] ?: "" ).toBe( VALUE );
+			} );
+
+			it( "sends the rejected value on a response served from the event cache", function(){
+				// the reinit clears the cache, so this response is the one that gets cached
+				send( base & "/main/cached?fwreinit=" & PASSWORD );
+				var r = send( base & "/main/cached?fwreinit=wrong" );
+				expect( r.headers[ "x-coldbox-cache-response" ] ?: "" ).toBe(
+					"true",
+					"served from the event cache"
+				);
+				expect( r.headers[ HEADER ] ?: "" ).toBe( REJECTED );
 			} );
 		} );
 	}
