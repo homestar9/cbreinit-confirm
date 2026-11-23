@@ -4,6 +4,7 @@
 .tmp/**
 .env
 .DS_Store
+plans/**
 
 # Dependencies
 test-harness/coldbox/**
